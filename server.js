@@ -7,10 +7,13 @@ const conncetDB  = require('./config/db')
 
 
 
-
-
 // env config
 dotenv.config();
+
+
+//router import 
+const userRoutes = require('./routes/userRoutes')
+const blogRoutes = require('./routes/blogRoutes')
 
 // mongodb connection 
 conncetDB();
@@ -28,10 +31,8 @@ app.use(morgan('dev'))
 
 
 // routes
-app.get('/', (req,res)=>{
-    res.status(200).send(`<h1> hello this blog app</h1>`);
-})
-
+app.use('/api/v1/user' , userRoutes);
+app.use('/api/v1/blog' , blogRoutes);
 
 
 // port 

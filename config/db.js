@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+// for altas connection try it
+//mongoose.set("strictQuery" , true);
 
 
 const conncetDB = async()=>{
@@ -12,6 +14,7 @@ const conncetDB = async()=>{
     }
 }
 
-
+//for connecting databse from mongodb altas
+//mongodb+srv://shaquib:mgpass@cluster0.ai9ki2k.mongodb.net/dbname=blogApp
 
 module.exports = conncetDB;
