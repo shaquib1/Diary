@@ -19,15 +19,10 @@ const blogSchema = new mongoose.Schema(
       ref: "User",
       require: [true, "user id is required"],
     },
-    user:{
-      type:mongoose.Types.ObjectId,
-      ref:"User",
-      required:[true , "user id is required"],
-    },
   },
   { timestamps: true }
 );
 
-const blogModel = mongoose.model('Blog', blogSchema);
+const blogModel = mongoose.model("Blog", blogSchema);
 
 module.exports = blogModel;

@@ -20,7 +20,6 @@ const userSchema = new mongoose.Schema(
         ref: "Blog",
       },
     ],
-    
   },
   { timestamps: true }
 );
