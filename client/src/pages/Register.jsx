@@ -1,80 +1,110 @@
-import React, {useState} from 'react'
-import { Box, Typography, TextField, Button } from "@mui/material"
-import {useNavigate} from 'react-router-dom'
-import axios from "axios"
-
-const Register = () => {
-
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, InputLabel, TextField, Typography } from "@mui/material";
+import toast from "react-hot-toast";
+const CreateBlog = () => {
+  const id = localStorage.getItem("userId");
   const navigate = useNavigate();
-
- //state
- const [inputs, setInputs] = useState({
-  name: "",
-  email: "",
-  password: "",
-});
-
-//handle input change
-const handleChange = (e) => {
-  setInputs((prevState) => ({
-    ...prevState,
-    [e.target.name]: e.target.value,
-  }));
-};
-
-//form handle
-const handleSubmit = async(e)=>{
-   e.preventDefault();
-  try {
-    const {data} =await axios.post('/api/v1/user/register', {
-      username:inputs.name,
-      email:inputs.email,
-      password:inputs.password,
-    });
-    if(data.success){
-      alert("User Register Successfully");
-      navigate("/login");
+  const [inputs, setInputs] = useState({
+    title: "",
+    description: "",
+    image: "",
+  });
+  // input change
+  const handleChange = (e) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  //form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post("/api/v1/blog/create-blog", {
+        title: inputs.title,
+        description: inputs.description,
+        image: inputs.image,
+        user: id,
+      });
+      if (data?.success) {
+        toast.success("Blog Created");
+        navigate("/my-blogs");
+      }
+    } catch (error) {
+      console.log(error);
     }
-
-  } catch (error) {
-    console.log(error);
-  }
-}
-
+  };
   return (
     <>
-    <form onSubmit={handleSubmit}>
-      <Box maxWidth={400}
-        display="flex"
-        flexDirection={"column"}
-        alignItems="center"
-        justifyContent={"center"}
-        margin="auto"
-        marginTop={5}
-        boxShadow="10px 10px 20px #ccc"
-        borderRadius={5}>
-
-        <Typography variant='h4' sx={{ textTransform: 'uppercase' }} padding={3} textAlign="center">Register</Typography>
-
-        <TextField value={inputs.name} onChange={handleChange} placeholder='name' name='name' margin='normal' type={"text"} required />
-        <TextField value={inputs.email} onChange={handleChange} placeholder='email' name='email' margin='normal' type={"email"} required />
-        <TextField value={inputs.password} onChange={handleChange} placeholder='password' name='password' margin='normal' type={"password"} required />
-
-        <Button 
-        type='submit'
-        sx={{marginTop:2 , borderRadius:2}}
-         variant='contained' 
-         color='primary'>
-          Submit</Button>
-        <Button
-        onClick={()=>navigate('/login')}
-         type='submit'
-         sx={{marginTop:2 , borderRadius:2}}
-          color='primary'>Already Registerd ? Please Login</Button>
-      </Box>
+      <form onSubmit={handleSubmit}>
+        <Box
+          width={"50%"}
+          border={3}
+          borderRadius={10}
+          padding={3}
+          margin="auto"
+          boxShadow={"10px 10px 20px #ccc"}
+          display="flex"
+          flexDirection={"column"}
+          marginTop="30px"
+        >
+          <Typography
+            variant="h2"
+            textAlign={"center"}
+            fontWeight="bold"
+            padding={3}
+            color="gray"
+          >
+            Create A Pots
+          </Typography>
+          <InputLabel
+            sx={{ mb: 1, mt: 2, fontSize: "24px", fontWeight: "bold" }}
+          >
+            Title
+          </InputLabel>
+          <TextField
+            name="title"
+            value={inputs.title}
+            onChange={handleChange}
+            margin="normal"
+            variant="outlined"
+            required
+          />
+          <InputLabel
+            sx={{ mb: 1, mt: 2, fontSize: "24px", fontWeight: "bold" }}
+          >
+            Description
+          </InputLabel>
+          <TextField
+            name="description"
+            value={inputs.description}
+            onChange={handleChange}
+            margin="normal"
+            variant="outlined"
+            required
+          />
+          <InputLabel
+            sx={{ mb: 1, mt: 2, fontSize: "24px", fontWeight: "bold" }}
+          >
+            Image URL
+          </InputLabel>
+          <TextField
+            name="image"
+            value={inputs.image}
+            onChange={handleChange}
+            margin="normal"
+            variant="outlined"
+            required
+          />
+          <Button type="submit" color="primary" variant="contained">
+            SUBMIT
+          </Button>
+        </Box>
       </form>
     </>
-  )
-}
+  );
+};
 
-export default Register
+export default CreateBlog;
