@@ -66,7 +66,7 @@ exports.getAllUsers = async (req, res) => {
 
 //login
 exports.loginController = async (req, res) => {
-   try {
+  try {
     const { email, password } = req.body;
     //validation
     if (!email || !password) {
