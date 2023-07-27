@@ -1,36 +1,38 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, InputLabel, TextField, Typography } from "@mui/material";
+import { Box, Typography, TextField, Button } from "@mui/material";
 import toast from "react-hot-toast";
-const CreateBlog = () => {
-  const id = localStorage.getItem("userId");
+import axios from "axios";
+const Register = () => {
   const navigate = useNavigate();
+  //state
   const [inputs, setInputs] = useState({
-    title: "",
-    description: "",
-    image: "",
+    name: "",
+    email: "",
+    password: "",
   });
-  // input change
+
+  //handle input change
   const handleChange = (e) => {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
-  //form
+
+  //form handle
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/v1/blog/create-blog", {
-        title: inputs.title,
-        description: inputs.description,
-        image: inputs.image,
-        user: id,
+      const { data } = await axios.post("/api/v1/user/register", {
+        username: inputs.name,
+        email: inputs.email,
+        password: inputs.password,
       });
-      if (data?.success) {
-        toast.success("Blog Created");
-        navigate("/my-blogs");
+      console.log(data);
+      if (data.success) {
+        toast.success("User Register Successfully");
+        navigate("/login");
       }
     } catch (error) {
       console.log(error);
@@ -40,66 +42,66 @@ const CreateBlog = () => {
     <>
       <form onSubmit={handleSubmit}>
         <Box
-          width={"50%"}
-          border={3}
-          borderRadius={10}
-          padding={3}
-          margin="auto"
-          boxShadow={"10px 10px 20px #ccc"}
+          maxWidth={450}
           display="flex"
           flexDirection={"column"}
-          marginTop="30px"
+          alignItems="center"
+          justifyContent={"center"}
+          margin="auto"
+          marginTop={5}
+          boxShadow="10px 10px 20px #ccc"
+          padding={3}
+          borderRadius={5}
         >
           <Typography
-            variant="h2"
-            textAlign={"center"}
-            fontWeight="bold"
+            variant="h4"
+            sx={{ textTransform: "uppercase" }}
             padding={3}
-            color="gray"
+            textAlign="center"
           >
-            Create A Pots
+            Register
           </Typography>
-          <InputLabel
-            sx={{ mb: 1, mt: 2, fontSize: "24px", fontWeight: "bold" }}
-          >
-            Title
-          </InputLabel>
           <TextField
-            name="title"
-            value={inputs.title}
+            placeholder="name"
+            value={inputs.name}
             onChange={handleChange}
+            name="name"
             margin="normal"
-            variant="outlined"
+            type={"text"}
             required
           />
-          <InputLabel
-            sx={{ mb: 1, mt: 2, fontSize: "24px", fontWeight: "bold" }}
-          >
-            Description
-          </InputLabel>
           <TextField
-            name="description"
-            value={inputs.description}
-            onChange={handleChange}
+            placeholder="email"
+            value={inputs.email}
+            name="email"
             margin="normal"
-            variant="outlined"
+            type={"email"}
             required
+            onChange={handleChange}
           />
-          <InputLabel
-            sx={{ mb: 1, mt: 2, fontSize: "24px", fontWeight: "bold" }}
-          >
-            Image URL
-          </InputLabel>
           <TextField
-            name="image"
-            value={inputs.image}
-            onChange={handleChange}
+            placeholder="password"
+            value={inputs.password}
+            name="password"
             margin="normal"
-            variant="outlined"
+            type={"password"}
             required
+            onChange={handleChange}
           />
-          <Button type="submit" color="primary" variant="contained">
-            SUBMIT
+
+          <Button
+            type="submit"
+            sx={{ borderRadius: 3, marginTop: 3 }}
+            variant="contained"
+            color="primary"
+          >
+            Submit
+          </Button>
+          <Button
+            onClick={() => navigate("/login")}
+            sx={{ borderRadius: 3, marginTop: 3 }}
+          >
+            Already Registerd ? Please Login
           </Button>
         </Box>
       </form>
@@ -107,4 +109,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog;
+export default Register;
