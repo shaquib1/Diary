@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const blogModel = require("../models/blogModel");
 const userModel = require("../models/userModel");
 
+
 //GET ALL BLOGS
 exports.getAllBlogsController = async (req, res) => {
   try {

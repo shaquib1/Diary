@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 // for altas connection try it
 //mongoose.set("strictQuery" , true);
 
+
 const conncetDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.Mongo_URL);

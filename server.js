@@ -5,6 +5,7 @@ const colors = require("colors");
 const dotenv = require("dotenv");
 const conncetDB = require("./config/db");
 
+
 // env config
 dotenv.config();
 
